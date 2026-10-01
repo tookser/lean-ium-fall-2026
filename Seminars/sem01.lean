@@ -249,11 +249,17 @@ section hw
 
   -- Define any functions with the following types.
   -- If you can't, explain why
+def ex1 : α → β → α := λ (a : α) (_b : β) => a -- first
 
-  def ex1 : α → β → α := sorry
-  def ex2 : (α → β → γ) → β → α → γ := sorry
-  def ex3 : (α → (β → γ)) → (α → β) → α → γ := sorry
-  def ex4 : ((α → β) → γ) → (β → γ → δ) → (α → β) → α → δ := sorry
-  def ex5 : (α → β) → β → α := sorry
+def ex2 : (α → β → γ) → β → α → γ := λ (f : α -> β -> γ) (b : β) (a : α) => f a b
+
+def ex3 : (α → (β → γ)) → (α → β) → α → γ := λ (f : (α -> (β -> γ))) (t : α -> β) (a : α) =>
+  f a (t a)
+
+def ex4 : ((α → β) → γ) → (β → γ → δ) → (α → β) → α → δ :=
+  λ (f1 : (α -> β) -> γ) (f2 : β -> γ -> δ) (f3 : α -> β) (a : α) => (f2 (f3 a)) (f1 f3)
+
+def ex5 : (α → β) → β → α :=
+  sorry -- can't be constructed because only types are α -> β and β, no α
 
 end hw
