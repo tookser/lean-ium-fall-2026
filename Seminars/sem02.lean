@@ -1,3 +1,8 @@
+/-!
+# Seminar 2
+Propositions as types
+-/
+
 /- Implicit arguments -/
 
 def id1 : (α : Type) → α → α := λ _ x ↦ x
