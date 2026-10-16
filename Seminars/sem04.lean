@@ -259,10 +259,33 @@ section hw
 
   /- Define the type of propositional formulas:
     if φ and ψ are formulas, so are φ → ψ -/
-  inductive Form : Type where
+  inductive Form: Type where
+    | false: Form
+    | true: Form
+    | mk: Form → Form → Form
+    | ofNat: Var → Form
+
+  def test_var: (v: Var) → Bool :=
+    λ v => match v with
+    | 0 => true
+    | 1 => false
+    | 2 => true
+    | 3 => false
+    | _ => false
+
+  #eval test_var 1
+  #eval test_var 2
 
   /- Define a boolean evaluation of a formula -/
-  def eval (v : Var → Bool) (φ : Form) : Bool := sorry
+  def eval (v : Var → Bool) (φ : Form) : Bool :=
+    match φ with
+    | Form.false => false
+    | Form.true => true
+    | Form.mk a b => (¬ (eval v a)) ∧ (eval v b)
+    | Form.ofNat i => v i
+
+  #eval eval test_var (Form.mk (Form.ofNat 1) (Form.ofNat 0))  -- true
+  #eval eval test_var (Form.mk (Form.ofNat 2) (Form.ofNat 1))  -- false
 
 
   /- Define an interpretation of a formula as Prop -/
